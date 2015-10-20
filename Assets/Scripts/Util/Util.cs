@@ -21,4 +21,8 @@ public class Util {
 		return targetString[targetString.Length-1] == '\0'?targetString.Substring(0, targetString.Length-1):targetString;
 	}
 
+	public static void ToggleHalo (GameObject targetObject, bool active) {
+		(targetObject.GetComponent("Halo") as Behaviour).enabled = active;
+	}
+
 }

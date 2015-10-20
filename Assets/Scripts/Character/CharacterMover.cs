@@ -7,7 +7,7 @@ public class CharacterMover : MonoBehaviour {
 	private Vector3 offset;
 	private Vector3 screenPoint;
 	
-
+	bool debug = true;
 	// Use this for initialization
 	void Start () {
 		Util.ToggleHalo(gameObject, false);
@@ -25,12 +25,19 @@ public class CharacterMover : MonoBehaviour {
 	}
 
 	void OnMouseDown () {
+		InputController.Instance.SetSelecterCharacter (this);
+		if (debug)
+			return;
+
 		screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
-		
+		VisualPointer.Instance.ToggleHalo (false);
 		offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
 	}
 
 	void OnMouseDrag () {
+	
+		if (debug)
+			return;
 		if (!InputController.Instance.InputEnabled()) {
 			return;
 		}
@@ -44,6 +51,14 @@ public class CharacterMover : MonoBehaviour {
 	}
 
 	void OnMouseUp () {
+		InputController.Instance.SetSelecterCharacter (null);
+		if (debug)
+			return;
+		VisualPointer.Instance.ToggleHalo (true);
 		Util.ToggleHalo(gameObject, false);
+	}
+
+	public void MoveCharacter (Vector3 newPosition) {
+		transform.position = newPosition;
 	}
 }

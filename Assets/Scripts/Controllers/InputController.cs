@@ -6,9 +6,29 @@ public class InputController : MonoBehaviour {
 	
 	private bool inputEnabled;
 
+	private CharacterMover currentSelectedCharacter = null;
+
+	private Transform pointer;
+
+	void Awake () {
+		Util.SingletonImplementation(ref Instance, this, gameObject);
+	}
+
 	// Use this for initialization
 	void Start () {
-		Util.SingletonImplementation(ref Instance, this, gameObject);
+
+	}
+
+	void Update () {
+		if (currentSelectedCharacter != null) {
+			currentSelectedCharacter.MoveCharacter (
+				Util.MatchPosition (
+					pointer.transform,
+			       	currentSelectedCharacter.transform,
+					true, 
+					false,
+					true));
+		}
 	}
 
 	public void ToggleInputEnabled (bool inputEnabled) {
@@ -22,5 +42,17 @@ public class InputController : MonoBehaviour {
 	public void Restart () {
 		MazeController.Instance.SpawnMaze();
 		CanvasController.Instance.ToggleCanvas(false);
+	}
+
+	public void SetSelecterCharacter (CharacterMover selectedCharacter) {
+		currentSelectedCharacter = selectedCharacter;
+	}
+
+	public void SetVisualPointer (VisualPointer pointer) {
+		this.pointer = pointer.transform;
+	}
+
+	public bool HasActiveCharacter () {
+		return currentSelectedCharacter != null;
 	}
 }

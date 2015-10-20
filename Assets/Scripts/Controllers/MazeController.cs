@@ -18,6 +18,7 @@ public class MazeController : MonoBehaviour {
 	public GameObject MazePiecePrefab;
 	public GameObject CharacterPiecePrefab;
 	public GameObject FinishPlacePrefab;
+	public GameObject EmptyPiecePrefab;
 
 	private const string DONT_DETROY_TAG = "DontDestroy";
 
@@ -53,6 +54,8 @@ public class MazeController : MonoBehaviour {
 					currentPiece = (GameObject) Instantiate(CharacterPiecePrefab, MazePositioner.PositionFromIndex(x, y), Quaternion.identity);
 				} else if (currentPieceType == MazePiece.Finish) {
 					currentPiece = (GameObject) Instantiate(FinishPlacePrefab, MazePositioner.PositionFromIndex(x, y), Quaternion.identity);
+				} else if (currentPieceType == MazePiece.Empty) {
+					currentPiece = (GameObject) Instantiate(EmptyPiecePrefab, MazePositioner.PositionFromIndex(x, y), Quaternion.identity);
 				}
 
 				if (currentPiece != null) currentPiece.transform.parent = MazeParent;

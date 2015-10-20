@@ -25,4 +25,16 @@ public class Util {
 		(targetObject.GetComponent("Halo") as Behaviour).enabled = active;
 	}
 
+	public static Vector3 WorldPositionFromMouse () {
+		Vector3 currentMousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y);
+		return Camera.main.ScreenToWorldPoint (currentMousePosition);
+	}
+
+	public static Vector3 MatchPosition (Transform leader, Transform follower, bool x, bool y, bool z) {
+		return new Vector3 (
+			x ? leader.position.x : follower.position.x,
+			y ? leader.position.y : follower.position.y,
+			z ? leader.position.z : follower.position.y);
+	}
+
 }

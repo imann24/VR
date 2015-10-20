@@ -6,12 +6,15 @@ public class CharacterMover : MonoBehaviour {
 	// Dragging code from: http://answers.unity3d.com/questions/12322/drag-gameobject-with-mouse.html
 	private Vector3 offset;
 	private Vector3 screenPoint;
+	
+
 	// Use this for initialization
 	void Start () {
 		Util.ToggleHalo(gameObject, false);
 	}
 
 	void OnMouseOver () {
+		InputController.Instance.ToggleInputEnabled(true);
 		Util.ToggleHalo(gameObject, true);
 	}
 
@@ -28,10 +31,15 @@ public class CharacterMover : MonoBehaviour {
 	}
 
 	void OnMouseDrag () {
+		if (!InputController.Instance.InputEnabled()) {
+			return;
+		}
+
 		Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
 		
 		Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint + offset);
 		curPosition.y = transform.position.y;
+
 		transform.position = curPosition;
 	}
 

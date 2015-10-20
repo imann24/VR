@@ -29,7 +29,7 @@ public class MazeController : MonoBehaviour {
 	void Start () {
 		preservePersistentMazeComponents();
 		generateMazes();
-		spawnMaze();
+		SpawnMaze();
 	}
 	
 	// Update is called once per frame
@@ -37,7 +37,7 @@ public class MazeController : MonoBehaviour {
 	
 	}
 
-	private void spawnMaze (bool shouldDestroyCurrentMaze = true) {
+	public void SpawnMaze (bool shouldDestroyCurrentMaze = true) {
 		MazePiece[][] mazePieces = currentMaze.GetPieces();
 
 		if (shouldDestroyCurrentMaze) destroyCurrentMaze();
@@ -48,10 +48,11 @@ public class MazeController : MonoBehaviour {
 				GameObject currentPiece = null;
 
 				if (currentPieceType == MazePiece.Wall) {
-					 currentPiece = (GameObject) Instantiate(MazePiecePrefab, MazePositioner.PositionFromIndex(x, y), Quaternion.identity);
-
+					currentPiece = (GameObject) Instantiate(MazePiecePrefab, MazePositioner.PositionFromIndex(x, y), Quaternion.identity);
 				} else if (currentPieceType == MazePiece.Start) {
 					currentPiece = (GameObject) Instantiate(CharacterPiecePrefab, MazePositioner.PositionFromIndex(x, y), Quaternion.identity);
+				} else if (currentPieceType == MazePiece.Finish) {
+					currentPiece = (GameObject) Instantiate(FinishPlacePrefab, MazePositioner.PositionFromIndex(x, y), Quaternion.identity);
 				}
 
 				if (currentPiece != null) currentPiece.transform.parent = MazeParent;
@@ -101,5 +102,9 @@ public class MazeController : MonoBehaviour {
 		for (int i = 0; i < PersistentMazeComponents.Length; i++) {
 			DontDestroyOnLoad(PersistentMazeComponents[i]);
 		}
+	}
+
+	public Maze GetCurrentMaze () {
+		return currentMaze;
 	}
 }

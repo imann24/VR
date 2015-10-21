@@ -37,4 +37,13 @@ public class Util {
 			z ? leader.position.z : follower.position.y);
 	}
 
+	// Generic method returns true or false if the array contains the object
+	public static bool ArrayContains<T> (T [] arrayToSearch, T objectToFind) where T : System.IComparable<T> {
+		return System.Array.Exists(arrayToSearch, s => {if( s.CompareTo(objectToFind) == 0) 
+			return true;
+			else 
+				return false;
+		});
+	}
+
 }

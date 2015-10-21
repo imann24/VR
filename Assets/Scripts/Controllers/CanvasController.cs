@@ -46,6 +46,7 @@ public class CanvasController : MonoBehaviour {
 
 	public void ToggleCanvas (bool enabled) {
 		canvasGroup.interactable = enabled;
+		canvasGroup.blocksRaycasts = enabled;
 		canvasGroup.alpha = enabled?1.0f:0.0f;
 	}
 }

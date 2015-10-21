@@ -58,6 +58,14 @@ public class CharacterMover : MonoBehaviour {
 		Util.ToggleHalo(gameObject, false);
 	}
 
+	void OnTriggerEnter (Collider collider) {
+		MazePieceController controller;
+		if ((controller = collider.GetComponent<MazePieceController>()) != null &&
+		    controller.Type == MazePiece.Wall) {
+			InputController.Instance.SetSelecterCharacter(null);
+		}
+	}
+
 	public void MoveCharacter (Vector3 newPosition) {
 		transform.position = newPosition;
 	}

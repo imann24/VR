@@ -87,7 +87,6 @@ public class MazeController : MonoBehaviour {
 		}
 	}
 
-
 	private void addMaze (TextAsset mazeTemplate) {
 		allMazes.Add (createMaze(mazeTemplate));
 	}
@@ -109,5 +108,10 @@ public class MazeController : MonoBehaviour {
 
 	public Maze GetCurrentMaze () {
 		return currentMaze;
+	}
+
+	public void LoadMaze (int mazeIndex) {
+		setCurrentMaze (mazeIndex);
+		SpawnMaze ();
 	}
 }

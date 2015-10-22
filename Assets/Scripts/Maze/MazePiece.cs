@@ -2,5 +2,6 @@
 	Wall,
 	Empty,
 	Start,
-	Finish
+	Finish,
+	Character
 }

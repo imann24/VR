@@ -1,16 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent (typeof(Rigidbody))]
+
 public class CharacterMover : MonoBehaviour {
 
 	// Dragging code from: http://answers.unity3d.com/questions/12322/drag-gameobject-with-mouse.html
 	private Vector3 offset;
 	private Vector3 screenPoint;
-	
+	private Rigidbody rigibody;
 	bool debug = true;
 	// Use this for initialization
 	void Start () {
 		Util.ToggleHalo(gameObject, false);
+		rigibody = GetComponent<Rigidbody> ();
 	}
 
 	void OnMouseOver () {
@@ -30,7 +33,6 @@ public class CharacterMover : MonoBehaviour {
 			return;
 
 		screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
-		VisualPointer.Instance.ToggleHalo (false);
 		offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
 	}
 
@@ -54,7 +56,6 @@ public class CharacterMover : MonoBehaviour {
 		InputController.Instance.SetSelecterCharacter (null);
 		if (debug)
 			return;
-		VisualPointer.Instance.ToggleHalo (true);
 		Util.ToggleHalo(gameObject, false);
 	}
 
@@ -67,6 +68,6 @@ public class CharacterMover : MonoBehaviour {
 	}
 
 	public void MoveCharacter (Vector3 newPosition) {
-		transform.position = newPosition;
+		rigibody.MovePosition (newPosition);
 	}
 }

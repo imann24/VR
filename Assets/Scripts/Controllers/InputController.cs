@@ -3,7 +3,9 @@ using System.Collections;
 
 public class InputController : MonoBehaviour {
 	public static InputController Instance;
-	
+
+	public enum PointerType {Cursor, Mover};
+
 	private bool inputEnabled;
 
 	private CharacterMover currentSelectedCharacter = null;
@@ -48,8 +50,15 @@ public class InputController : MonoBehaviour {
 		currentSelectedCharacter = selectedCharacter;
 	}
 
-	public void SetVisualPointer (VisualPointer pointer) {
-		this.pointer = pointer.transform;
+	public void SetMovementPointer (Transform pointer) {
+		this.pointer = pointer;
+	}
+
+	public void MovePointers (MazePiece mazePiece, Vector3 position) {
+		VisualPointer.Pointers [PointerType.Cursor].GoToGameObject (position, mazePiece);
+		if (mazePiece != MazePiece.Wall) {
+			VisualPointer.Pointers[PointerType.Mover].GoToGameObject(position, mazePiece);
+		}
 	}
 
 	public bool HasActiveCharacter () {

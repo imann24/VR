@@ -10,11 +10,7 @@ public class MazePieceController : MonoBehaviour {
 	public MazePiece Type;
 
 	void OnMouseOver () {
-		if (Type == MazePiece.Wall) {
-			InputController.Instance.ToggleInputEnabled (false);
-		}
-
-		VisualPointer.Instance.GoToGameObject (transform.position, Type);
+		InputController.Instance.MovePointers(Type, transform.position);
 	}
 
 	void OnTriggerEnter (Collider collider) {

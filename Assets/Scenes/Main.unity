@@ -571,6 +571,58 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!1 &660772262
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 660772263}
+  - 114: {fileID: 660772264}
+  - 122: {fileID: 660772265}
+  m_Layer: 0
+  m_Name: MovementPointer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &660772263
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 660772262}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 773583507}
+  m_RootOrder: 1
+--- !u!114 &660772264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 660772262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7951a3f0cc52824fb3a491a8cb17aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 1
+--- !u!122 &660772265
+Halo:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 660772262}
+  m_Enabled: 1
+  m_Color:
+    serializedVersion: 2
+    rgba: 4280859974
+  m_Size: 1
 --- !u!1 &716846759
 GameObject:
   m_ObjectHideFlags: 0
@@ -699,6 +751,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1774168588}
+  - {fileID: 660772263}
   m_Father: {fileID: 0}
   m_RootOrder: 1
 --- !u!114 &773583508
@@ -1195,6 +1248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7951a3f0cc52824fb3a491a8cb17aed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
 --- !u!1 &1822032546
 GameObject:
   m_ObjectHideFlags: 0

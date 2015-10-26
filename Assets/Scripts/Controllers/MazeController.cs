@@ -12,6 +12,7 @@ public class MazeController : MonoBehaviour {
 
 	private List<Maze> allMazes = new List<Maze>();
 	private Maze currentMaze;
+	private MazePieceController[][] currentMazePieceControllers;
 
 	// To spawn the maze
 	public Transform MazeParent;
@@ -31,15 +32,16 @@ public class MazeController : MonoBehaviour {
 		preservePersistentMazeComponents();
 		generateMazes();
 		SpawnMaze();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+		setVisualMoverPosition();
 	}
 
 	public void SpawnMaze (bool shouldDestroyCurrentMaze = true) {
 		MazePiece[][] mazePieces = currentMaze.GetPieces();
+		currentMazePieceControllers = new MazePieceController[currentMaze.Width()][];
+
+		for (int x = 0; x < currentMaze.Width(); x++) {
+			currentMazePieceControllers[x] = new MazePieceController[currentMaze.Height()];
+		}
 
 		if (shouldDestroyCurrentMaze) destroyCurrentMaze();
 
@@ -58,9 +60,41 @@ public class MazeController : MonoBehaviour {
 					currentPiece = (GameObject) Instantiate(EmptyPiecePrefab, MazePositioner.PositionFromIndex(x, y), Quaternion.identity);
 				}
 
-				if (currentPiece != null) currentPiece.transform.parent = MazeParent;
+				if (currentPiece != null) {
+					currentPiece.transform.parent = MazeParent;
+					currentMazePieceControllers[x][y] = currentPiece.GetComponent<MazePieceController>();
+					currentMazePieceControllers[x][y].SetPosition(x, y);
+
+				}
+
+				if (isCenterPosition(x, y, mazePieces.Length, mazePieces[x].Length)) {
+					VisualPointer.ResetPointerPositions(currentPiece.transform.position);
+				}
 			}
 		}
+
+		
+	}
+
+	private bool isCenterPosition (int x, int y, int w, int h) {
+		return (x == w/2 && y == h/2);
+	}
+
+	public Maze GetCurrentMaze () {
+		return currentMaze;
+	}
+	
+	public void LoadMaze (int mazeIndex) {
+		setCurrentMaze (mazeIndex);
+		SpawnMaze ();
+	}
+
+	public MazePieceController MazePieceControllerFromPosition (Position position) {
+		return currentMazePieceControllers[position.GetX()][position.GetY()];
+	}
+
+	public MazePieceController[][] GetMazePieceControllers () {
+		return currentMazePieceControllers;
 	}
 
 	private void destroyCurrentMaze () {
@@ -70,6 +104,8 @@ public class MazeController : MonoBehaviour {
 				Destroy(mazeComponent);
 			}
 		}
+
+		MazePieceController.WorldToMazePositions.Clear();
 	}
 
 	private void generateMazes () {
@@ -106,12 +142,11 @@ public class MazeController : MonoBehaviour {
 		}
 	}
 
-	public Maze GetCurrentMaze () {
-		return currentMaze;
-	}
-
-	public void LoadMaze (int mazeIndex) {
-		setCurrentMaze (mazeIndex);
-		SpawnMaze ();
+	private void setVisualMoverPosition () {
+		int x = currentMaze.Width()/2;
+		int y = currentMaze.Height()/2;
+		VisualPointer.SetStartingPositionOfMover(new Position(x, y));
+		VisualPointer.Pointers[InputController.PointerType.Mover].SetPosition(
+			currentMazePieceControllers[x][y].GetWorldPosition());
 	}
 }

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class InputController : MonoBehaviour {
@@ -54,10 +54,10 @@ public class InputController : MonoBehaviour {
 		this.pointer = pointer;
 	}
 
-	public void MovePointers (MazePiece mazePiece, Vector3 position) {
-		VisualPointer.Pointers [PointerType.Cursor].GoToGameObject (position, mazePiece);
+	public void MovePointers (MazePiece mazePiece, Vector3 worldPosition, Position mazePosition) {
+		VisualPointer.Pointers [PointerType.Cursor].GoToGameObject (worldPosition, mazePiece);
 		if (mazePiece != MazePiece.Wall) {
-			VisualPointer.Pointers[PointerType.Mover].GoToGameObject(position, mazePiece);
+			VisualPointer.Pointers[PointerType.Mover].GoToGameObject(mazePosition, mazePiece);
 		}
 	}
 

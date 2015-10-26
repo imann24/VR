@@ -46,4 +46,14 @@ public class Util {
 		});
 	}
 
+	public static T [][] InitializeMatrixAsJaggedArray<T> (T[][] matrix, int w, int h) {
+		matrix = new T[w][];
+
+		for (int x = 0; x < w; x++) { 
+			matrix[x] = new T[h];
+		}
+
+		return matrix;
+	}
+
 }

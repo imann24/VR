@@ -23,6 +23,20 @@ public class Maze {
 		return pieces;
 	}
 
+	public MazePiece MazePieceFromPosition (Position position) {
+		return pieces[position.GetX()][position.GetY()];
+	}
+
+	public MazePiece[] MazePiecesFromPositions (Position[] positions) {
+		MazePiece[] mazePieces = new MazePiece[positions.Length];
+
+		for (int i = 0; i < positions.Length; i++) {
+			mazePieces[i] = MazePieceFromPosition(positions[i]);
+		}
+
+		return mazePieces;
+	}
+
 	public int Width () {
 		return pieces.Length;
 	}

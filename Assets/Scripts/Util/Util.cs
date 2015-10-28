@@ -1,14 +1,15 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 
 public class Util {
 
 	public static void SingletonImplementation<T> (ref T staticInstance, T instance, GameObject associatedObject) {
 		if (staticInstance == null) {
-			Object.DontDestroyOnLoad(associatedObject);
+			UnityEngine.Object.DontDestroyOnLoad(associatedObject);
 			staticInstance = instance;
 		} else {
-			Object.Destroy(associatedObject);
+			UnityEngine.Object.Destroy(associatedObject);
 		}
 	}
 
@@ -37,6 +38,21 @@ public class Util {
 			z ? leader.position.z : follower.position.y);
 	}
 
+
+	public static Vector3 RoundPositionToNearestHalves (Vector3 position) {
+		position.x = RoundToNearestFifth(position.x);
+		position.y = RoundToNearestFifth(position.y);
+		position.z = RoundToNearestFifth(position.z);
+
+		return position;
+
+	}
+
+	//Code from http://stackoverflow.com/questions/1329426/how-do-i-round-to-the-nearest-0-5
+	public static float RoundToNearestFifth (float value) {
+		return (float) Math.Round(value * 2f, MidpointRounding.AwayFromZero)/2f;
+	}
+
 	// Generic method returns true or false if the array contains the object
 	public static bool ArrayContains<T> (T [] arrayToSearch, T objectToFind) where T : System.IComparable<T> {
 		return System.Array.Exists(arrayToSearch, s => {if( s.CompareTo(objectToFind) == 0) 
@@ -56,4 +72,8 @@ public class Util {
 		return matrix;
 	}
 
+	public static bool WithinRange (int value, int upperBound, int lowerBound =0, bool includeUpperBound = false) {
+		bool withinUpperBound = includeUpperBound?value<=upperBound:value<upperBound;
+		return withinUpperBound && value >= lowerBound;
+	}
 }

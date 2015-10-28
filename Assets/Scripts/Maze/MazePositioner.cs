@@ -9,12 +9,11 @@ public class MazePositioner {
 	
 	static bool [,] visitedSpaces;
 
-	public static Vector3 PositionFromIndex (int x, int y, float height = defaultHeight) {
-		return new Vector3(x - MazeController.Instance.GetCurrentMaze().Width()/2,
+	public static Vector3 PositionFromIndex (int x, int y, float height = defaultHeight, float anchorOffset = 0) {
+		return new Vector3(x - MazeController.Instance.GetCurrentMaze().Width()/2 - anchorOffset,
 		                   height,
-		                   y -  MazeController.Instance.GetCurrentMaze().Height()/2);
+		                   y -  MazeController.Instance.GetCurrentMaze().Height()/2 - anchorOffset);
 	}
-
 
 	public static Vector3[] WorldPathFromPosition (Position startPosition, Position endPosition, Maze maze) {		
 		setGoalPosition(endPosition);

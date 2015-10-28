@@ -48,9 +48,7 @@ public class VisualPointer : MonoBehaviour {
 
 	public void GoToGameObject (Position mazePiecePosition, MazePiece type) {
 
-		if (currentMoveCoroutine != null) {
-			StopCoroutine(currentMoveCoroutine);
-		}
+		stopMovementCoroutine();
 
 		StartCoroutine(
 			currentMoveCoroutine = TraverseMazePositions(
@@ -63,11 +61,21 @@ public class VisualPointer : MonoBehaviour {
 		Util.ToggleHalo (gameObject, active);
 	}
 
-	IEnumerator TraverseMazePositions (Vector3[] path, int currentIndex=0) {
+	public void StopMovement () {
+		stopMovementCoroutine();
+	}
+
+	private void stopMovementCoroutine () {
+		if (currentMoveCoroutine != null) {
+			StopCoroutine(currentMoveCoroutine);
+		}
+	}
+
+	IEnumerator TraverseMazePositions (Vector3[] path, int currentIndex=0, float speed = 15f) {
 		if (path != null && currentIndex < path.Length) {
 			Vector3 initialPosition = transform.position;
 			Vector3 targetPosition = path[currentIndex];
-			float steps = 15;
+			float steps = speed;
 			setMazePosition(targetPosition);
 
 			for (float i = 0; i < steps; i++) {
@@ -101,9 +109,16 @@ public class VisualPointer : MonoBehaviour {
 		try {
 			currentPosition = MazePieceController.WorldToMazePositions[worldPosition];
 		} catch { 
+//			Debug.Log(currentPosition);
+//			Debug.Log("The x difference is" + (transform.position.x - worldPosition.x));
+//			Debug.Log("The z difference is" + (transform.position.z - worldPosition.z));
+//			currentPosition = currentPosition.Translate((int) (transform.position.x - worldPosition.x),
+//			                          (int) (transform.position.z - worldPosition.z)); 
+//			Debug.Log(currentPosition);
+		}
 
-			currentPosition.Translate((int) (transform.position.x - worldPosition.x),
-			                          (int) (transform.position.z - worldPosition.z));
+		if (Type == InputController.PointerType.Mover) {
+			InputController.Instance.SetSelectCharacterMazePosition(currentPosition);
 		}
 	}
 

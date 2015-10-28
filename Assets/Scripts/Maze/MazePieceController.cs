@@ -33,9 +33,14 @@ public class MazePieceController : MonoBehaviour {
 	}
 	
 	public void SetPosition (int x, int y) {
+		if (WorldToMazePositions.ContainsKey(transform.position)) {
+			WorldToMazePositions.Remove(transform.position);
+		}
 		mazePosition = new Position(x, y);
 		WorldToMazePositions.Add(transform.position, mazePosition);
 	}
+
+
 
 	public Position GetMazePosition () {
 		return mazePosition;

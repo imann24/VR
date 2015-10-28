@@ -9,6 +9,11 @@ public class AudioController : MonoBehaviour {
 	public AudioSource SFX1;
 	public AudioSource SFX2;
 
+	public AudioClip GameMusic;
+	public AudioClip MainMenuMusic;
+
+	public AudioClip PrisonerFoundSFX;
+
 
 	public enum Channel {Music, SFX1, SFX2};
 	private Channel currentChannel;
@@ -51,6 +56,17 @@ public class AudioController : MonoBehaviour {
 		allAudioSources.Add(Channel.SFX1, SFX1);
 		allAudioSources.Add(Channel.SFX2, SFX2);
 		return allAudioSources;
+
+	}
+
+	public void SetMusic (GameState state) {
+		SetChannel(Channel.Music);
+
+		if (state == GameState.Game) {
+			SetClip(GameMusic);
+		}
+		    
+		PlayCurrentClip();
 
 	}
 

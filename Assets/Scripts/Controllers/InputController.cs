@@ -5,8 +5,8 @@ public class InputController : MonoBehaviour {
 	public static InputController Instance;
 
 	public enum PointerType {Cursor, Mover};
-
-	private bool inputEnabled;
+	
+	private bool inputEnabled = true;
 
 	private CharacterMover currentSelectedCharacter = null;
 
@@ -30,6 +30,16 @@ public class InputController : MonoBehaviour {
 					true, 
 					false,
 					true));
+		}
+
+		if (Input.GetMouseButtonUp(0)) {
+			inputEnabled = true;
+		}
+	}
+
+	public void SetSelectCharacterMazePosition (Position position) {
+		if (currentSelectedCharacter != null) {
+			currentSelectedCharacter.SetMazePosition(position);
 		}
 	}
 
@@ -56,8 +66,15 @@ public class InputController : MonoBehaviour {
 
 	public void MovePointers (MazePiece mazePiece, Vector3 worldPosition, Position mazePosition) {
 		VisualPointer.Pointers [PointerType.Cursor].GoToGameObject (worldPosition, mazePiece);
-		if (mazePiece != MazePiece.Wall) {
-			VisualPointer.Pointers[PointerType.Mover].GoToGameObject(mazePosition, mazePiece);
+		if (inputEnabled) {
+			if (mazePiece != MazePiece.Wall) {
+				VisualPointer.Pointers[PointerType.Mover].GoToGameObject(mazePosition, mazePiece);
+			} else {
+				if (currentSelectedCharacter != null) {
+					inputEnabled = false;
+				}
+				VisualPointer.Pointers[PointerType.Mover].StopMovement();
+			}
 		}
 	}
 

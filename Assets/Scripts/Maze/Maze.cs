@@ -50,4 +50,44 @@ public class Maze {
 
 		return maxHeight;
 	}
+
+	public bool WithinMazeInnerBounds (int x, int y) {
+		return WithinMazeInnerBounds(new Position(x, y));
+	}
+
+	public bool WithinMazeInnerBounds (Position position) {
+		if (!WithinMazeOuterBounds(position)) {
+			return false;
+		}
+
+		Position [] nearbyPositions = position.AdjacentSquares();
+		int adjacentWallCount = 0;
+
+		for (int i = 0; i < nearbyPositions.Length; i++) {
+			if (!WithinMazeOuterBounds(nearbyPositions[i])) {
+				Debug.Log(nearbyPositions[i]);
+				continue;
+			}
+			Debug.Log(this);
+			Debug.Log(nearbyPositions[i]);
+			if (MazePieceFromPosition(nearbyPositions[i]) == MazePiece.Wall) {
+				adjacentWallCount++;
+			}
+		}
+
+		return adjacentWallCount >= 1;
+	}
+
+	public bool WithinMazeOuterBounds (int x, int y) {
+		return WithinMazeOuterBounds(new Position(x, y));
+	}
+
+	public bool WithinMazeOuterBounds (Position position) {
+		return Util.WithinRange(position.GetX(), Width()) &&
+			Util.WithinRange(position.GetY(), Height());
+	}
+
+	public override string ToString () {
+		return Width() + "x" + Height() + " Maze";
+	}
 }

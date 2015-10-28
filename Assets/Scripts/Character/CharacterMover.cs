@@ -9,15 +9,25 @@ public class CharacterMover : MonoBehaviour {
 	private Vector3 offset;
 	private Vector3 screenPoint;
 	private Rigidbody rigibody;
+	bool suppressMicroMovement = false;
+
+	private Quaternion forwardRotation = new Quaternion(0, 180, 0, 0);
+	public Position MazePosition{get; private set;}
+
 	bool debug = true;
 	// Use this for initialization
 	void Start () {
 		Util.ToggleHalo(gameObject, false);
 		rigibody = GetComponent<Rigidbody> ();
+		setStartingMovementRotation();
+		setStartingMazePosition();
 	}
 
-	void OnMouseOver () {
+	void OnMouseEnter () {
+		suppressMicroMovement = true;
 		InputController.Instance.ToggleInputEnabled(true);
+		VisualPointer.Pointers[InputController.PointerType.Mover].StopMovement();
+		VisualPointer.Pointers[InputController.PointerType.Mover].SetPosition(transform.position);
 		Util.ToggleHalo(gameObject, true);
 	}
 
@@ -25,6 +35,7 @@ public class CharacterMover : MonoBehaviour {
 		if (!Input.GetMouseButton(0)) {
 			Util.ToggleHalo(gameObject, false);
 		}
+		suppressMicroMovement = false;
 	}
 
 	void OnMouseDown () {
@@ -34,6 +45,8 @@ public class CharacterMover : MonoBehaviour {
 
 		screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
 		offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
+
+		VisualPointer.Pointers[InputController.PointerType.Mover].SetPosition(transform.position);
 	}
 
 	void OnMouseDrag () {
@@ -68,6 +81,25 @@ public class CharacterMover : MonoBehaviour {
 	}
 
 	public void MoveCharacter (Vector3 newPosition) {
+		if (suppressMicroMovement) {
+			return;
+		}
+
 		rigibody.MovePosition (newPosition);
+	}
+
+	public void SetMazePosition (Position mazePosition) {
+		MazePosition = mazePosition;
+		GetComponent<MazePieceController>().SetPosition(
+			mazePosition.GetX(), 
+			mazePosition.GetY());
+	}
+
+	void setStartingMovementRotation () {
+		transform.localRotation = forwardRotation;
+	}
+
+	void setStartingMazePosition () {
+		MazePosition = GetComponent<MazePieceController>().GetMazePosition();
 	}
 }

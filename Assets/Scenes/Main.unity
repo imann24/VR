@@ -162,11 +162,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400006, guid: ce816f2e6abb0504092c23ed9b970dfd, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 1.16999996
+      value: 1.96899998
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: ce816f2e6abb0504092c23ed9b970dfd, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 10.7299995
+      value: 12.1149998
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: ce816f2e6abb0504092c23ed9b970dfd, type: 2}
       propertyPath: m_LocalPosition.z
@@ -1119,9 +1119,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MazeTemplates:
-  - {fileID: 4900000, guid: bd7005da0342241fba23bd9f1abf9416, type: 3}
-  - {fileID: 4900000, guid: 3d180abe24cd34334a4576ad77258fe6, type: 3}
   - {fileID: 4900000, guid: 34a30469a62de4f35ae95cc17d9acb2f, type: 3}
+  - {fileID: 4900000, guid: 3d180abe24cd34334a4576ad77258fe6, type: 3}
+  - {fileID: 4900000, guid: bd7005da0342241fba23bd9f1abf9416, type: 3}
   PersistentMazeComponents:
   - {fileID: 0}
   MazeParent: {fileID: 1773575698}

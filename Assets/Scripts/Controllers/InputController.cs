@@ -18,7 +18,7 @@ public class InputController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+		makeCursorInvisible();
 	}
 
 	void Update () {
@@ -80,5 +80,9 @@ public class InputController : MonoBehaviour {
 
 	public bool HasActiveCharacter () {
 		return currentSelectedCharacter != null;
+	}
+
+	private void makeCursorInvisible () {
+		Cursor.visible = false;
 	}
 }

@@ -12,14 +12,16 @@ public class UIPointer : MonoBehaviour {
 	void Start () {
 		setReferences();
 	}
-	
-	// Positioning code from: http://answers.unity3d.com/questions/12322/drag-gameobject-with-mouse.html
-	void Update () {
 
-		rTransform.position = (Vector2) Input.mousePosition + MouseOffset;
+	void Update () {
+		matchMousePosition();
 	}
 
 	void setReferences () {
 		rTransform = GetComponent<RectTransform>();
+	}
+
+	void matchMousePosition () {
+		rTransform.position = (Vector2) Input.mousePosition + MouseOffset;
 	}
 }

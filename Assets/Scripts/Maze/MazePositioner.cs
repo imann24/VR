@@ -22,7 +22,6 @@ public class MazePositioner {
 		bool[][] path = Util.InitializeMatrixAsJaggedArray(new bool[w][], w, h);
 		bool[][] visited = Util.InitializeMatrixAsJaggedArray(new bool[w][], w, h);
 
-
 		if (arraySearch(ref path, 
 		            ref visited, 
 		            startPosition.GetX(), 
@@ -48,7 +47,20 @@ public class MazePositioner {
 		return mazePieceControllers;
 	}
 
+	public static Position GetClosestMazePosition (Vector3 worldPosition) {
+		float minDistance = float.MaxValue;
+		float currentDistance;
+		Position closestPosition = null;
+		foreach (Vector3 mazePieceWorldPosition in MazePieceController.WorldToMazePositions.Keys) {
 
+			if (minDistance > (currentDistance = Vector3.Distance(worldPosition, mazePieceWorldPosition))) {
+				closestPosition = MazePieceController.WorldToMazePositions[mazePieceWorldPosition];
+				minDistance = currentDistance;
+			}
+		}
+
+		return closestPosition;
+	}
 	private static bool inBounds (Position position) {
 		Maze maze = MazeController.Instance.GetCurrentMaze();
 		int x = position.GetX();

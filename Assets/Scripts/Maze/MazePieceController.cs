@@ -11,7 +11,11 @@ public class MazePieceController : MonoBehaviour {
 	public static event EnterLocationAction OnEnterLocation;
 
 	private Position mazePosition;
-
+	private bool isCharacter {
+		get {
+			return Type == MazePiece.Character;
+		}
+	}
 	public MazePiece Type;
 	
 	void Start () {
@@ -23,7 +27,9 @@ public class MazePieceController : MonoBehaviour {
 	}
 
 	void OnMouseEnter () {
-		InputController.Instance.MovePointers(Type, transform.position, mazePosition);
+		if (!isCharacter) {
+			InputController.Instance.MovePointers(Type, transform.position, mazePosition);
+		}
 	}
 
 	void OnTriggerEnter (Collider collider) {
@@ -33,11 +39,14 @@ public class MazePieceController : MonoBehaviour {
 	}
 	
 	public void SetPosition (int x, int y) {
-		if (WorldToMazePositions.ContainsKey(transform.position)) {
+		if (WorldToMazePositions.ContainsKey(transform.position) && !isCharacter) {
 			WorldToMazePositions.Remove(transform.position);
 		}
 		mazePosition = new Position(x, y);
-		WorldToMazePositions.Add(transform.position, mazePosition);
+
+		if (!WorldToMazePositions.ContainsKey(transform.position)) {
+			WorldToMazePositions.Add(transform.position, mazePosition);
+		}
 	}
 
 

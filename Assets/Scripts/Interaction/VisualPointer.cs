@@ -109,12 +109,7 @@ public class VisualPointer : MonoBehaviour {
 		try {
 			currentPosition = MazePieceController.WorldToMazePositions[worldPosition];
 		} catch { 
-//			Debug.Log(currentPosition);
-//			Debug.Log("The x difference is" + (transform.position.x - worldPosition.x));
-//			Debug.Log("The z difference is" + (transform.position.z - worldPosition.z));
-//			currentPosition = currentPosition.Translate((int) (transform.position.x - worldPosition.x),
-//			                          (int) (transform.position.z - worldPosition.z)); 
-//			Debug.Log(currentPosition);
+			//currentPosition = MazePositioner.GetClosestMazePosition(worldPosition);
 		}
 
 		if (Type == InputController.PointerType.Mover) {

@@ -115,7 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c69044d6953e46539687fb2eb0e25ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 3
+  Type: 4
 --- !u!114 &11488250
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -154,7 +154,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: Type
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_IsTrigger

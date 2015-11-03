@@ -203,7 +203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c69044d6953e46539687fb2eb0e25ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 4
+  Type: 5
 --- !u!122 &12270310
 Halo:
   m_ObjectHideFlags: 1
@@ -264,7 +264,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: Type
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_TagString

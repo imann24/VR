@@ -76,4 +76,28 @@ public class Util {
 		bool withinUpperBound = includeUpperBound?value<=upperBound:value<upperBound;
 		return withinUpperBound && value >= lowerBound;
 	}
+
+	public static T [] RemoveNullElements <T> (T[] array) {
+		int newLength = array.Length;
+		int index = 0;
+		T[] newArray;
+		bool [] nullElements = new bool[array.Length];
+
+		for (int i = 0; i < array.Length; i++) {
+			nullElements[i] = array[i] == null;
+			newLength = nullElements[i]?newLength-1:newLength;
+		}
+
+		newArray = new T[newLength];
+
+		for (int i = 0; i < array.Length; i++) {
+			if (nullElements[i]) {
+				continue;
+			} else {
+				newArray[index++] = array[i];
+			}
+		}
+
+		return newArray;
+	}
 }

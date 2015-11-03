@@ -109,14 +109,15 @@ public class MazeController : MonoBehaviour {
 				if (currentTorchPosition == null) {
 					noWallFoundOffset++;
 				} else {
+					if (currentTorchPosition == null) {
+						Debug.Log(x + " " + y + " " + currentTorchPosition);
+					}
 					torchPositions[x * (int) Mathf.Sqrt(numTorches) + y - noWallFoundOffset] = currentTorchPosition;
 				}
 			}
 		}
 
-		Array.Copy(torchPositions, torchPositions, numTorches - noWallFoundOffset);
-
-		return torchPositions;
+		return Util.RemoveNullElements(torchPositions);
 	}
 
 	private Position getRandomWallPositionInRange (Maze maze, Position minCorner, Position maxCorner) {
@@ -131,16 +132,17 @@ public class MazeController : MonoBehaviour {
 			randomPosition = Position.RandomPositionInRange(minCorner, maxCorner);
 		}
 
-		return randomPosition;
+		return maze.MazePieceFromPosition(randomPosition) == MazePiece.Wall?randomPosition:null;
 	}
 
 	private void spawnTorches (Maze maze, float torchHeight = 2.0f) {
 		Position[] torchPositions = getTorchPositions(maze);
 
 		for (int i = 0; i < torchPositions.Length; i++) {
-			Instantiate(TorchPrefab,
+			GameObject torch = (GameObject) Instantiate(TorchPrefab,
 			            MazePositioner.PositionFromIndex(torchPositions[i], torchHeight),
 			            Quaternion.identity);
+			torch.transform.parent = MazeParent;
 		}
 	}
 

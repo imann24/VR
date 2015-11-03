@@ -25,7 +25,6 @@ public class MazePositioner {
 		int h = maze.Height();
 		bool[][] path = Util.InitializeMatrixAsJaggedArray(new bool[w][], w, h);
 		bool[][] visited = Util.InitializeMatrixAsJaggedArray(new bool[w][], w, h);
-
 		if (arraySearch(ref path, 
 		            ref visited, 
 		            startPosition.GetX(), 
@@ -55,8 +54,8 @@ public class MazePositioner {
 		float minDistance = float.MaxValue;
 		float currentDistance;
 		Position closestPosition = null;
+	
 		foreach (Vector3 mazePieceWorldPosition in MazePieceController.WorldToMazePositions.Keys) {
-
 			if (minDistance > (currentDistance = Vector3.Distance(worldPosition, mazePieceWorldPosition))) {
 				closestPosition = MazePieceController.WorldToMazePositions[mazePieceWorldPosition];
 				minDistance = currentDistance;
@@ -73,7 +72,7 @@ public class MazePositioner {
 		    	x < maze.Width() &&
 		    	y >= 0 &&
 		        y < maze.Height() && 
-		        maze.GetPieces()[x][y] != MazePiece.Wall);
+		        !isWall(maze.GetPieces()[x][y]));
 	}
 
 	private static bool inBounds (int x, int y) {
@@ -208,4 +207,8 @@ public class MazePositioner {
 			y == goalPosition.GetY ();
 	}
 
+	private static bool isWall (MazePiece pieceType) {
+		return pieceType == MazePiece.Wall ||
+			pieceType == MazePiece.DestroyableWall;
+	}
 }

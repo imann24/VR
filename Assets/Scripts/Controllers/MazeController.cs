@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class MazeController : MonoBehaviour {
+	public int MaximumDestroyDistance = 2;
 
 	public static MazeController Instance;
 
@@ -18,6 +19,7 @@ public class MazeController : MonoBehaviour {
 	// To spawn the maze
 	public Transform MazeParent;
 	public GameObject MazePiecePrefab;
+	public GameObject DestroyableWallPrefab;
 	public GameObject CharacterPiecePrefab;
 	public GameObject FinishPlacePrefab;
 	public GameObject EmptyPiecePrefab;
@@ -41,12 +43,10 @@ public class MazeController : MonoBehaviour {
 
 	public void SpawnMaze (bool shouldDestroyCurrentMaze = true) {
 		MazePiece[][] mazePieces = currentMaze.GetPieces();
-		currentMazePieceControllers = new MazePieceController[currentMaze.Width()][];
+		currentMazePieceControllers = Util.InitializeMatrixAsJaggedArray(new MazePieceController[currentMaze.Width()][],
+		                                                                 currentMaze.Width(),
+		                                                                 currentMaze.Height());
 		bool isCharacter = false;
-
-		for (int x = 0; x < currentMaze.Width(); x++) {
-			currentMazePieceControllers[x] = new MazePieceController[currentMaze.Height()];
-		}
 
 		if (shouldDestroyCurrentMaze) destroyCurrentMaze();
 
@@ -65,12 +65,14 @@ public class MazeController : MonoBehaviour {
 					currentPiece = (GameObject) Instantiate(FinishPlacePrefab, MazePositioner.PositionFromIndex(x, y), Quaternion.identity);
 				} else if (currentPieceType == MazePiece.Empty) {
 					currentPiece = (GameObject) Instantiate(EmptyPiecePrefab, MazePositioner.PositionFromIndex(x, y), Quaternion.identity);
+				} else if (currentPieceType == MazePiece.DestroyableWall) {
+					currentPiece = (GameObject) Instantiate(DestroyableWallPrefab, MazePositioner.PositionFromIndex(x, y), Quaternion.identity);
 				}
 
 				if (currentPiece != null) {
 					currentPiece.transform.parent = MazeParent;
 					currentMazePieceControllers[x][y] = currentPiece.GetComponent<MazePieceController>();
-					currentMazePieceControllers[x][y].SetPosition(x, y);
+					currentMazePieceControllers[x][y].SetPosition(x, y, true);
 
 					if (isCharacter) {
 						VisualPointer.ResetPointerPositions(currentPiece.transform.position);
@@ -181,15 +183,17 @@ public class MazeController : MonoBehaviour {
 	private void generateMazes () {
 		for (int i = 0; i < MazeTemplates.Length; i++) {
 			allMazes.Add(createMaze(MazeTemplates[i]));
+			allMazes[i].SetName(MazeTemplates[i].name);
 		}
-		currentMaze = allMazes[0];
+
+		setCurrentMaze(0);
 	}
 
 	private void setCurrentMaze (int mazeIndex) {
 		if (allMazes == null || mazeIndex >= allMazes.Count) {
 			Debug.LogError("Index is out of range");
 		} else {
-			currentMaze = allMazes[mazeIndex];
+			currentMaze = new Maze(allMazes[mazeIndex]);
 		}
 	}
 
@@ -216,6 +220,7 @@ public class MazeController : MonoBehaviour {
 		int x = currentMaze.Width()/2;
 		int y = currentMaze.Height()/2;
 		VisualPointer.SetStartingPositionOfMover(new Position(x, y));
+		Debug.Log(currentMazePieceControllers[x][y]);
 		VisualPointer.Pointers[InputController.PointerType.Mover].SetPosition(
 			currentMazePieceControllers[x][y].GetWorldPosition());
 	}

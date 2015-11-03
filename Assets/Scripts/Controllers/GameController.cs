@@ -3,6 +3,7 @@ using System.Collections;
 
 public class GameController : MonoBehaviour {
 	public static GameController Instance;
+	public CharacterMover MainCharacter {get; private set;}
 
 	public GameState CurrentState = GameState.Game;
 	// Use this for initialization
@@ -21,6 +22,18 @@ public class GameController : MonoBehaviour {
 			MazeController.Instance.LoadMaze(1);
 		} else if (Input.GetKeyDown(KeyCode.Alpha3)) {
 			MazeController.Instance.LoadMaze(2);
+		} else if (Input.GetKeyDown(KeyCode.Alpha4)) {
+			MazeController.Instance.LoadMaze(3);
+		} else if (Input.GetKeyDown(KeyCode.Alpha5)) {
+			MazeController.Instance.LoadMaze(4);
 		}
+	}
+
+	public void SetMainCharacter (CharacterMover mainCharacter) {
+		MainCharacter = mainCharacter;
+	}
+
+	public bool HasMainCharacter () {
+		return MainCharacter != null;
 	}
 }

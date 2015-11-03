@@ -60,6 +60,10 @@ public class InputController : MonoBehaviour {
 		currentSelectedCharacter = selectedCharacter;
 	}
 
+	public CharacterMover GetSelectedCharacter () {
+		return currentSelectedCharacter;
+	}
+
 	public void SetMovementPointer (Transform pointer) {
 		this.pointer = pointer;
 	}
@@ -69,12 +73,7 @@ public class InputController : MonoBehaviour {
 		if (inputEnabled) {
 			if (mazePiece != MazePiece.Wall) {
 				VisualPointer.Pointers[PointerType.Mover].GoToGameObject(mazePosition, mazePiece);
-			} else {
-				if (currentSelectedCharacter != null) {
-					inputEnabled = false;
-				}
-				VisualPointer.Pointers[PointerType.Mover].StopMovement();
-			}
+			} 
 		}
 	}
 

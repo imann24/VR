@@ -3,9 +3,15 @@ using System.Collections;
 
 public class Maze {
 	private MazePiece [][] pieces;
+	public string Name {get; private set;}
 
 	public Maze (MazePiece[][] pieces) {
 		this.pieces = pieces;
+	}
+
+	// Constructor to copy a current maze's contents
+	public Maze (Maze maze) {
+		this.pieces = maze.GetPieces();
 	}
 
 	public void ModifyPiece (int x, int y, MazePiece newType) {
@@ -96,5 +102,9 @@ public class Maze {
 
 	public override string ToString () {
 		return Width() + "x" + Height() + " Maze";
+	}
+
+	public void SetName (string name) {
+		Name = name;
 	}
 }

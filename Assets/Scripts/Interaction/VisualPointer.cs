@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class VisualPointer : MonoBehaviour {
+
 	public InputController.PointerType Type;
 	public static Dictionary <InputController.PointerType, VisualPointer> Pointers = 
 		new Dictionary<InputController.PointerType, VisualPointer>();
@@ -47,6 +48,10 @@ public class VisualPointer : MonoBehaviour {
 	}
 
 	public void GoToGameObject (Position mazePiecePosition, MazePiece type) {
+
+		if (currentPosition == null) {
+			currentPosition = MazePositioner.GetClosestMazePosition(transform.position);
+		}
 
 		stopMovementCoroutine();
 
@@ -109,7 +114,7 @@ public class VisualPointer : MonoBehaviour {
 		try {
 			currentPosition = MazePieceController.WorldToMazePositions[worldPosition];
 		} catch { 
-			//currentPosition = MazePositioner.GetClosestMazePosition(worldPosition);
+			currentPosition = MazePositioner.GetClosestMazePosition(worldPosition);
 		}
 
 		if (Type == InputController.PointerType.Mover) {

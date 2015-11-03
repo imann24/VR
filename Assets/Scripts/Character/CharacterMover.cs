@@ -4,6 +4,7 @@ using System.Collections;
 [RequireComponent (typeof(Rigidbody))]
 
 public class CharacterMover : MonoBehaviour {
+	public bool MainCharacter = true;
 
 	public delegate void CharacterMoveAction (bool moving);
 	public static event CharacterMoveAction OnCharacterMove;
@@ -24,6 +25,19 @@ public class CharacterMover : MonoBehaviour {
 		rigibody = GetComponent<Rigidbody> ();
 		setStartingMovementRotation();
 		setStartingMazePosition();
+
+		if (MainCharacter) {
+			if (GameController.Instance.HasMainCharacter()) {
+				Debug.LogWarning("There is already a main character. Changing to the current one");
+			}
+			GameController.Instance.SetMainCharacter(this);
+		}
+	}
+
+	void OnDestroy () {
+		if (GameController.Instance.MainCharacter == this) {
+			GameController.Instance.SetMainCharacter(null);
+		}
 	}
 
 	void OnMouseEnter () {

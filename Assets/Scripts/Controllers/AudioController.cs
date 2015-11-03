@@ -43,6 +43,13 @@ public class AudioController : MonoBehaviour {
 		allAudioSources[currentChannel].Play();
 	}
 
+	public void StopCurrentClip () {
+		allAudioSources[currentChannel].Stop();
+	}
+
+	public void ToggleLoopCurrentClip (bool active) {
+		allAudioSources[currentChannel].loop = active;
+	}
 	public void SetClip (AudioClip clip) {
 		allAudioSources[currentChannel].clip = clip;
 	}
@@ -76,22 +83,32 @@ public class AudioController : MonoBehaviour {
 
 	private void ToggleSlidingSound (bool active) {
 		SetChannel(Channel.SFX2);
-		allAudioSources[currentChannel].loop = active;
+		ToggleLoopCurrentClip(active);
 
 		if (active) {
 			SetClip(SlideSFX);
+			PlayCurrentClip();
 		} else {
 			SetClip(null);
-			allAudioSources[currentChannel].Stop();
+			StopCurrentClip();
 		}
 
 	}
 
+	private void PlayDestroyWallSound () {
+		SetChannel(Channel.SFX1);
+		SetClip(ExplosionSFX);
+		ToggleLoopCurrentClip(false);
+		PlayCurrentClip();
+	}
+
 	void SubscribeEvents () {
 		CharacterMover.OnCharacterMove += ToggleSlidingSound;
+		MazePieceController.OnDestroyWall += PlayDestroyWallSound;
 	}
 
 	void UnsubscribeEvents () {
 		CharacterMover.OnCharacterMove -= ToggleSlidingSound;
+		MazePieceController.OnDestroyWall -= PlayDestroyWallSound;
 	}
 }

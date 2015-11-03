@@ -65,6 +65,18 @@ public class Position {
 		return positions;
 	}
 
+	public static int Area (Position position1, Position position2) {
+		return Mathf.Abs(position1.GetX() - position2.GetX()) *
+			Mathf.Abs(position1.GetY() - position2.GetY());
+	}
+
+	public static Position RandomPositionInRange (Position minPosition, Position maxPosition) {
+		return new Position(Random.Range(minPosition.GetX(), 
+		                                 maxPosition.GetX() + 1),
+		                    Random.Range(minPosition.GetY(), 
+		             maxPosition.GetY() + 1));
+	}
+
 	public override string ToString () {
 		return ("(" + x + ", " + y + ")");
 	}

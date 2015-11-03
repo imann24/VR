@@ -15,6 +15,10 @@ public class MazePositioner {
 		                   y -  MazeController.Instance.GetCurrentMaze().Height()/2 - anchorOffset);
 	}
 
+	public static Vector3 PositionFromIndex (Position position, float height = defaultHeight, float anchorOffset = 0) {
+		return PositionFromIndex (position.GetX(), position.GetY(), height, anchorOffset);
+	}
+
 	public static Vector3[] WorldPathFromPosition (Position startPosition, Position endPosition, Maze maze) {		
 		setGoalPosition(endPosition);
 		int w = maze.Width();

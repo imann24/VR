@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -22,6 +23,7 @@ public class MazeController : MonoBehaviour {
 	public GameObject EmptyPiecePrefab;
 	public GameObject LightPieceBase;
 	public GameObject DarkPieceBase;
+	public GameObject TorchPrefab;
 
 	private const string DONT_DETROY_TAG = "DontDestroy";
 
@@ -79,6 +81,7 @@ public class MazeController : MonoBehaviour {
 			}
 		}
 
+		spawnTorches(currentMaze);
 		
 	}
 
@@ -92,6 +95,53 @@ public class MazeController : MonoBehaviour {
 		                                                  Quaternion.identity);
 		
 		currentTile.transform.parent = MazeParent;
+	}
+
+	private Position [] getTorchPositions (Maze maze, int torchSpacing = 3) {
+		int numTorches = (int) Mathf.Pow(Mathf.Min (maze.Height(), maze.Width())/torchSpacing - 1, 2.0f);
+		Position [] torchPositions = new Position[numTorches];
+		int noWallFoundOffset = 0;
+		for (int x = 0; x < Mathf.Sqrt(numTorches); x++) {
+			for (int y = 0; y < Mathf.Sqrt(numTorches); y++) {
+				Position currentTorchPosition = getRandomWallPositionInRange(maze,
+			    	                                                         new Position(torchSpacing * x, torchSpacing * y),
+			        	                                                     new Position(torchSpacing * (x + 1), torchSpacing * (y + 1)));
+				if (currentTorchPosition == null) {
+					noWallFoundOffset++;
+				} else {
+					torchPositions[x * (int) Mathf.Sqrt(numTorches) + y - noWallFoundOffset] = currentTorchPosition;
+				}
+			}
+		}
+
+		Array.Copy(torchPositions, torchPositions, numTorches - noWallFoundOffset);
+
+		return torchPositions;
+	}
+
+	private Position getRandomWallPositionInRange (Maze maze, Position minCorner, Position maxCorner) {
+		int area = Position.Area(minCorner, maxCorner);
+		int loopCount = 0;
+
+		Position randomPosition = null;
+
+		while (loopCount++ < area &&
+		       (randomPosition == null ||
+		 maze.MazePieceFromPosition(randomPosition) != MazePiece.Wall)) {
+			randomPosition = Position.RandomPositionInRange(minCorner, maxCorner);
+		}
+
+		return randomPosition;
+	}
+
+	private void spawnTorches (Maze maze, float torchHeight = 2.0f) {
+		Position[] torchPositions = getTorchPositions(maze);
+
+		for (int i = 0; i < torchPositions.Length; i++) {
+			Instantiate(TorchPrefab,
+			            MazePositioner.PositionFromIndex(torchPositions[i], torchHeight),
+			            Quaternion.identity);
+		}
 	}
 
 	public Maze GetCurrentMaze () {

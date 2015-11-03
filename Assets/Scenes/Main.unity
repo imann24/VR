@@ -567,7 +567,7 @@ RectTransform:
   - {fileID: 171898636}
   - {fileID: 824899380}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -647,66 +647,6 @@ Halo:
     serializedVersion: 2
     rgba: 4280859974
   m_Size: 1
---- !u!1 &716846759
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 716846761}
-  - 108: {fileID: 716846760}
-  m_Layer: 0
-  m_Name: Area Light
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!108 &716846760
-Light:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 716846759}
-  m_Enabled: 1
-  serializedVersion: 6
-  m_Type: 3
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
-  m_Range: 10
-  m_SpotAngle: 30
-  m_CookieSize: 10
-  m_Shadows:
-    m_Type: 0
-    m_Resolution: -1
-    m_Strength: 1
-    m_Bias: .0500000007
-    m_NormalBias: .400000006
-  m_Cookie: {fileID: 0}
-  m_DrawHalo: 0
-  m_Flare: {fileID: 0}
-  m_RenderMode: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_Lightmapping: 2
-  m_BounceIntensity: 1
-  m_ShadowRadius: 0
-  m_ShadowAngle: 0
-  m_AreaSize: {x: 1, y: 1}
---- !u!4 &716846761
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 716846759}
-  m_LocalRotation: {x: .707106829, y: 0, z: 0, w: .707106709}
-  m_LocalPosition: {x: 2, y: 2, z: .499999881}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
 --- !u!1 &724985721
 GameObject:
   m_ObjectHideFlags: 0
@@ -1008,7 +948,7 @@ RectTransform:
   m_Children:
   - {fileID: 816902146}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -1105,7 +1045,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: a5858aec3a2fe4d38b58b5e8a1953f61, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: a5858aec3a2fe4d38b58b5e8a1953f61, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -1259,7 +1199,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
 --- !u!1 &1773575696
 GameObject:
   m_ObjectHideFlags: 0
@@ -1300,6 +1240,7 @@ MonoBehaviour:
   EmptyPiecePrefab: {fileID: 196730, guid: 1e3e0d87f4579c943b4b16d453a58689, type: 2}
   LightPieceBase: {fileID: 198640, guid: d88a3a008e0de4c99ac034f226768a14, type: 2}
   DarkPieceBase: {fileID: 198604, guid: 94127c292f7ab4a249fd156a0ccc2eca, type: 2}
+  TorchPrefab: {fileID: 160232, guid: 9b937cd0d5f354e60861d17833768dbe, type: 2}
 --- !u!4 &1773575698
 Transform:
   m_ObjectHideFlags: 0

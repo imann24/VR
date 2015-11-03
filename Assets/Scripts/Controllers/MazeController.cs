@@ -111,6 +111,10 @@ public class MazeController : MonoBehaviour {
 		return currentMazePieceControllers;
 	}
 
+	public void WallDestroyed (Position position) {
+		currentMaze.ModifyPiece(position, MazePiece.Empty);
+	}
+
 	private void destroyCurrentMaze () {
 		for (int i = 0; i < MazeParent.childCount; i++) {
 			GameObject mazeComponent = MazeParent.GetChild(i).gameObject;

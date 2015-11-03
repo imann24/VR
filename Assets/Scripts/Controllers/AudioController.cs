@@ -13,7 +13,11 @@ public class AudioController : MonoBehaviour {
 	public AudioClip MainMenuMusic;
 
 	public AudioClip PrisonerFoundSFX;
-
+	public AudioClip ShatterSFX;
+	public AudioClip ExplosionSFX;
+	public AudioClip SlideSFX;
+	public AudioClip PageTurnSFX;
+	public AudioClip StartButtonSFX;
 
 	public enum Channel {Music, SFX1, SFX2};
 	private Channel currentChannel;
@@ -70,11 +74,24 @@ public class AudioController : MonoBehaviour {
 
 	}
 
-	void SubscribeEvents () {
+	private void ToggleSlidingSound (bool active) {
+		SetChannel(Channel.SFX2);
+		allAudioSources[currentChannel].loop = active;
+
+		if (active) {
+			SetClip(SlideSFX);
+		} else {
+			SetClip(null);
+			allAudioSources[currentChannel].Stop();
+		}
 
 	}
 
-	void UnsubscribeEvents () {
+	void SubscribeEvents () {
+		CharacterMover.OnCharacterMove += ToggleSlidingSound;
+	}
 
+	void UnsubscribeEvents () {
+		CharacterMover.OnCharacterMove -= ToggleSlidingSound;
 	}
 }

@@ -463,6 +463,11 @@ MonoBehaviour:
   GameMusic: {fileID: 8300000, guid: 6cfc8a7d82b274ec7b2da1de77d45fb3, type: 3}
   MainMenuMusic: {fileID: 8300000, guid: a1be6d20c0a014199b0bf6a735a02903, type: 3}
   PrisonerFoundSFX: {fileID: 8300000, guid: 04f7c4b5100f54f0fa884de630c26321, type: 3}
+  ShatterSFX: {fileID: 8300000, guid: 42c00d0faa9c349a495f86d32ec2721e, type: 3}
+  ExplosionSFX: {fileID: 8300000, guid: 58a663fa1e5a64bf88c974ff5ab337c7, type: 3}
+  SlideSFX: {fileID: 8300000, guid: 519e45592f7e240f7b060fc24af284ea, type: 3}
+  PageTurnSFX: {fileID: 8300000, guid: cf77941eda0c843a2af8293aecc616bd, type: 3}
+  StartButtonSFX: {fileID: 8300000, guid: a6ddf003386ed4974929c5110fb9eab1, type: 3}
 --- !u!4 &632066798
 Transform:
   m_ObjectHideFlags: 0

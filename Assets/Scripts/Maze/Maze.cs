@@ -19,6 +19,13 @@ public class Maze {
 		}
 	}
 
+	// Overloaded method for the position
+	public void ModifyPiece (Position position, MazePiece newType) {
+		ModifyPiece(position.GetX(), 
+		            position.GetY(),
+		            newType);
+	}
+
 	public MazePiece [][] GetPieces () {
 		return pieces;
 	}

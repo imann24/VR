@@ -5,6 +5,9 @@ using System.Collections;
 
 public class CharacterMover : MonoBehaviour {
 
+	public delegate void CharacterMoveAction (bool moving);
+	public static event CharacterMoveAction OnCharacterMove;
+
 	// Dragging code from: http://answers.unity3d.com/questions/12322/drag-gameobject-with-mouse.html
 	private Vector3 offset;
 	private Vector3 screenPoint;
@@ -40,6 +43,8 @@ public class CharacterMover : MonoBehaviour {
 
 	void OnMouseDown () {
 		InputController.Instance.SetSelecterCharacter (this);
+		characterMove(true);
+
 		if (debug)
 			return;
 
@@ -67,6 +72,7 @@ public class CharacterMover : MonoBehaviour {
 
 	void OnMouseUp () {
 		InputController.Instance.SetSelecterCharacter (null);
+		characterMove(false);
 		if (debug)
 			return;
 		Util.ToggleHalo(gameObject, false);
@@ -93,6 +99,12 @@ public class CharacterMover : MonoBehaviour {
 		GetComponent<MazePieceController>().SetPosition(
 			mazePosition.GetX(), 
 			mazePosition.GetY());
+	}
+
+	void characterMove (bool moving) {
+		if (OnCharacterMove != null) {
+			OnCharacterMove(moving);
+		}
 	}
 
 	void setStartingMovementRotation () {

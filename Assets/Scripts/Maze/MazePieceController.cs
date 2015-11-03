@@ -32,6 +32,10 @@ public class MazePieceController : MonoBehaviour {
 		}
 	}
 
+	void OnMouseDown () {
+
+	}
+
 	void OnTriggerEnter (Collider collider) {
 		if (Type == MazePiece.Finish && OnEnterLocation != null) {
 			OnEnterLocation(Location.Finish);
@@ -67,5 +71,14 @@ public class MazePieceController : MonoBehaviour {
 		}
 
 		return worldPath;
+	}
+
+	private void destroyWall () {
+		//TODO: Change from destroying the object outright to playing the destroy animation
+		Destroy(transform.GetChild(0));
+
+		Type = MazePiece.Empty;
+
+		MazeController.Instance.WallDestroyed(mazePosition);
 	}
 }

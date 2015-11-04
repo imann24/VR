@@ -57,7 +57,7 @@ public class MazeSelectorController : MonoBehaviour {
 		return new Vector3 (xPos, -mazeNumber * spacing + yOffset, zPos);
 	}
 
-	private Vector3 mazeOptionScale (float scale = 0.5f) {
+	private Vector3 mazeOptionScale (float scale = 0.75f) {
 		return new Vector3 (scale, scale, scale);
 	}
 

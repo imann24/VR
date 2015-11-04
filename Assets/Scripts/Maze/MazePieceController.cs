@@ -14,6 +14,8 @@ public class MazePieceController : MonoBehaviour {
 	public static event EnterLocationAction OnEnterLocation;
 
 	private Position mazePosition;
+	private bool gameOver = false;
+
 	private bool isCharacter {
 		get {
 			return Type == MazePiece.Character;
@@ -50,7 +52,8 @@ public class MazePieceController : MonoBehaviour {
 	}
 
 	void OnTriggerEnter (Collider collider) {
-		if (Type == MazePiece.Finish && OnEnterLocation != null) {
+		if (Type == MazePiece.Finish && OnEnterLocation != null && !gameOver) {
+			gameOver = true;
 			OnEnterLocation(Location.Finish);
 		}
 	}
@@ -89,7 +92,8 @@ public class MazePieceController : MonoBehaviour {
 
 	private void destroyWall () {
 		//TODO: Change from destroying the object outright to playing the destroy animation
-		Destroy(transform.GetChild(0).gameObject);
+		StartCoroutine(destroyWallAnimation(transform.GetChild(0)));
+
 		Util.ToggleHalo(gameObject, false);
 
 		callDetroyWallEvent();
@@ -109,5 +113,15 @@ public class MazePieceController : MonoBehaviour {
 	private bool characterWithinDestroyRange () {
 		return mazePosition.Distance(GameController.Instance.MainCharacter.MazePosition) <= 
 			MazeController.Instance.MaximumDestroyDistance;
+	}
+
+	IEnumerator destroyWallAnimation (Transform wall, float seconds = 2.0f, float speed = 2.0f) {
+		float steps = seconds * Time.frameCount/Time.time;
+		for (int i = 0; i < steps; i++) {
+			wall.position += Vector3.down * Time.deltaTime * speed;
+			yield return new WaitForEndOfFrame();
+		}
+
+		Destroy (wall.gameObject);
 	}
 }

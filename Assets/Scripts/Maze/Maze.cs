@@ -12,6 +12,7 @@ public class Maze {
 	// Constructor to copy a current maze's contents
 	public Maze (Maze maze) {
 		this.pieces = maze.GetPieces();
+		this.Name = maze.Name;
 	}
 
 	public void ModifyPiece (int x, int y, MazePiece newType) {
@@ -78,11 +79,8 @@ public class Maze {
 
 		for (int i = 0; i < nearbyPositions.Length; i++) {
 			if (!WithinMazeOuterBounds(nearbyPositions[i])) {
-				Debug.Log(nearbyPositions[i]);
 				continue;
 			}
-			Debug.Log(this);
-			Debug.Log(nearbyPositions[i]);
 			if (MazePieceFromPosition(nearbyPositions[i]) == MazePiece.Wall) {
 				adjacentWallCount++;
 			}
@@ -102,6 +100,11 @@ public class Maze {
 
 	public override string ToString () {
 		return Width() + "x" + Height() + " Maze";
+	}
+
+
+	public bool Equals (Maze maze) {
+		return Name == maze.Name;
 	}
 
 	public void SetName (string name) {

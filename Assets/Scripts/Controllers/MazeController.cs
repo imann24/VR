@@ -4,6 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class MazeController : MonoBehaviour {
+	public delegate void MazeCompleteAction (Maze maze);
+	public static event MazeCompleteAction OnMazeComplete;
+
 	public int MaximumDestroyDistance = 2;
 	public int BorderSize = 25;
 
@@ -41,6 +44,11 @@ public class MazeController : MonoBehaviour {
 		generateMazes();
 		SpawnMaze();
 		setVisualMoverPosition();
+		subscribeEvents();
+	}
+
+	void OnDestroy () {
+		unsubscribeEvents();
 	}
 
 	public void SpawnMaze (bool shouldDestroyCurrentMaze = true) {
@@ -157,6 +165,8 @@ public class MazeController : MonoBehaviour {
 	}
 	
 	public void LoadMaze (int mazeIndex) {
+		GameController.Instance.OpenInstructionBook();
+		GameController.Instance.ToggleOverlayInstructions(false);
 		setCurrentMaze (mazeIndex);
 		SpawnMaze ();
 	}
@@ -189,7 +199,7 @@ public class MazeController : MonoBehaviour {
 			allMazes.Add(createMaze(MazeTemplates[i]));
 			allMazes[i].SetName(MazeTemplates[i].name);
 		}
-
+		setHardestMaze();
 		setCurrentMaze(0);
 	}
 
@@ -252,5 +262,23 @@ public class MazeController : MonoBehaviour {
 				
 			}
 		}
+	}
+
+	private void callMazeCompleteEvent (Location mazeLocation = Location.Finish) {
+		if (OnMazeComplete != null && mazeLocation == Location.Finish) {
+			OnMazeComplete(currentMaze);
+		}
+	}
+
+	private void subscribeEvents () {
+		MazePieceController.OnEnterLocation += callMazeCompleteEvent;
+	}
+
+	private void unsubscribeEvents () {
+		MazePieceController.OnEnterLocation -= callMazeCompleteEvent;
+	}
+
+	private void setHardestMaze () {
+		GameController.Instance.SetHardestMaze(allMazes[allMazes.Count - 1]);
 	}
 }

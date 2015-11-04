@@ -11,6 +11,7 @@ public class AudioController : MonoBehaviour {
 
 	public AudioClip GameMusic;
 	public AudioClip MainMenuMusic;
+	public AudioClip HardestLevelWonMusic;
 
 	public AudioClip PrisonerFoundSFX;
 	public AudioClip ShatterSFX;
@@ -50,6 +51,15 @@ public class AudioController : MonoBehaviour {
 	public void ToggleLoopCurrentClip (bool active) {
 		allAudioSources[currentChannel].loop = active;
 	}
+
+	public void ToggleMuteCurrentClip (bool muted) {
+		allAudioSources[currentChannel].mute = muted;
+	}
+
+	public void SetClipVolume (float volume = 1.0f) {
+		allAudioSources[currentChannel].volume = volume;
+	}
+
 	public void SetClip (AudioClip clip) {
 		allAudioSources[currentChannel].clip = clip;
 	}
@@ -75,40 +85,79 @@ public class AudioController : MonoBehaviour {
 
 		if (state == GameState.Game) {
 			SetClip(GameMusic);
+		} else if (state == GameState.Start) {
+			SetClip(MainMenuMusic);
 		}
 		    
 		PlayCurrentClip();
 
 	}
 
-	private void ToggleSlidingSound (bool active) {
+	private void toggleMuteMusic (bool muted) {
+		SetChannel(Channel.Music);
+		ToggleMuteCurrentClip(muted);
+	}
+
+
+	private void unmuteMusic () {
+		toggleMuteMusic(false);
+	}
+
+	private AudioClip currentClip () {
+		return allAudioSources[currentChannel].clip;
+	}
+
+	private void toggleSlidingSound (bool active) {
 		SetChannel(Channel.SFX2);
 		ToggleLoopCurrentClip(active);
 
 		if (active) {
 			SetClip(SlideSFX);
 			PlayCurrentClip();
-		} else {
+		} else if (currentClip() == SlideSFX) {
 			SetClip(null);
 			StopCurrentClip();
 		}
 
 	}
 
-	private void PlayDestroyWallSound () {
+	private void playLevelCompleteMusic (bool hardestLevel) {
+		SetChannel(Channel.SFX2);
+		SetClip(hardestLevel?HardestLevelWonMusic:PrisonerFoundSFX);
+		ToggleLoopCurrentClip(false);
+		PlayCurrentClip();
+		toggleMuteMusic(true);
+		Invoke("unmuteMusic", HardestLevelWonMusic.length);
+	}
+
+	private void playDestroyWallSound () {
 		SetChannel(Channel.SFX1);
 		SetClip(ExplosionSFX);
+		SetClipVolume(0.5f);
+		ToggleLoopCurrentClip(false);
+		PlayCurrentClip();
+	}
+
+	private void playPageTurnSound () {
+		SetClipVolume();
+		SetChannel(Channel.SFX1);
+		SetClip(PageTurnSFX);
 		ToggleLoopCurrentClip(false);
 		PlayCurrentClip();
 	}
 
 	void SubscribeEvents () {
-		CharacterMover.OnCharacterMove += ToggleSlidingSound;
-		MazePieceController.OnDestroyWall += PlayDestroyWallSound;
+		CharacterMover.OnCharacterMove += toggleSlidingSound;
+		MazePieceController.OnDestroyWall += playDestroyWallSound;
+		GameController.OnInstructionPageTurn += playPageTurnSound;
+		GameController.OnMazeComplete += playLevelCompleteMusic;
 	}
 
 	void UnsubscribeEvents () {
-		CharacterMover.OnCharacterMove -= ToggleSlidingSound;
-		MazePieceController.OnDestroyWall -= PlayDestroyWallSound;
+		CharacterMover.OnCharacterMove -= toggleSlidingSound;
+		MazePieceController.OnDestroyWall -= playDestroyWallSound;
+		GameController.OnInstructionPageTurn -= playPageTurnSound;
+		GameController.OnMazeComplete -= playLevelCompleteMusic;
 	}
+
 }

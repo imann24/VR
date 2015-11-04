@@ -100,4 +100,8 @@ public class Util {
 
 		return newArray;
 	}
+
+	public static Color ChangeColorOpacty (Color color, float opacity) {
+		return new Color(color.r, color.g, color.b, opacity);
+	}
 }

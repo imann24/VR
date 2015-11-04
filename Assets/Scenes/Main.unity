@@ -1228,6 +1228,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaximumDestroyDistance: 2
+  BorderSize: 15
   MazeTemplates:
   - {fileID: 4900000, guid: 6bc43ec7ee55e483ea2b79777e287221, type: 3}
   - {fileID: 4900000, guid: 5fdef385be5c34de399c17af025aaaab, type: 3}
@@ -1246,6 +1247,7 @@ MonoBehaviour:
   LightPieceBase: {fileID: 198640, guid: d88a3a008e0de4c99ac034f226768a14, type: 2}
   DarkPieceBase: {fileID: 198604, guid: 94127c292f7ab4a249fd156a0ccc2eca, type: 2}
   TorchPrefab: {fileID: 160232, guid: 9b937cd0d5f354e60861d17833768dbe, type: 2}
+  PointerCellPrefab: {fileID: 104826, guid: fc3977b97b797c34489f1c34c8833d5d, type: 2}
 --- !u!4 &1773575698
 Transform:
   m_ObjectHideFlags: 0

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class MazeController : MonoBehaviour {
 	public int MaximumDestroyDistance = 2;
+	public int BorderSize = 25;
 
 	public static MazeController Instance;
 
@@ -26,6 +27,7 @@ public class MazeController : MonoBehaviour {
 	public GameObject LightPieceBase;
 	public GameObject DarkPieceBase;
 	public GameObject TorchPrefab;
+	public GameObject PointerCellPrefab;
 
 	private const string DONT_DETROY_TAG = "DontDestroy";
 
@@ -49,6 +51,8 @@ public class MazeController : MonoBehaviour {
 		bool isCharacter = false;
 
 		if (shouldDestroyCurrentMaze) destroyCurrentMaze();
+
+		generateBorder (BorderSize);
 
 		for (int x = 0; x < mazePieces.Length; x++) {
 			for (int y = 0; y < mazePieces[x].Length; y++) {
@@ -220,7 +224,6 @@ public class MazeController : MonoBehaviour {
 		int x = currentMaze.Width()/2;
 		int y = currentMaze.Height()/2;
 		VisualPointer.SetStartingPositionOfMover(new Position(x, y));
-		Debug.Log(currentMazePieceControllers[x][y]);
 		VisualPointer.Pointers[InputController.PointerType.Mover].SetPosition(
 			currentMazePieceControllers[x][y].GetWorldPosition());
 	}
@@ -231,6 +234,23 @@ public class MazeController : MonoBehaviour {
 			return DarkPieceBase;
 		} else {
 			return LightPieceBase;
+		}
+	}
+
+	private void generateBorder (int borderSize) {
+		for (int x = -borderSize; x < currentMaze.Width () + borderSize; x++) {
+			for (int y = -borderSize; y < currentMaze.Height() + borderSize; y++) {
+				if (currentMaze.WithinMazeOuterBounds(new Position(x, y))) {
+					continue;
+				}
+				
+				GameObject pointerCell = (GameObject) Instantiate (PointerCellPrefab, 
+				                                                   MazePositioner.PositionFromIndex(x, y),
+				                                                   Quaternion.identity);
+				pointerCell.transform.parent = MazeParent;
+				
+				
+			}
 		}
 	}
 }
